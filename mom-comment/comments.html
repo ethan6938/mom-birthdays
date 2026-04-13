@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave a Birthday Message</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #fff1f2, #ffffff, #fffbeb);
+      color: #292524;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: min(92%, 680px);
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.07);
+      border: 1px solid #f5f5f4;
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      color: #1c1917;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .intro {
+      text-align: center;
+      font-size: 17px;
+      color: #57534e;
+      margin-bottom: 24px;
+    }
+
+    .birthday-form {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      margin-bottom: 16px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      display: block;
+      padding: 14px 16px;
+      border: 1px solid #e7e5e4;
+      border-radius: 18px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      color: #292524;
+      background: #fffdfd;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #f43f5e;
+      box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 18px;
+      font-weight: bold;
+      display: inline-block;
+      transition: 0.2s ease;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #f43f5e;
+      color: white;
+      box-shadow: 0 12px 24px rgba(244, 63, 94, 0.25);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #292524;
+      border: 1px solid #e7e5e4;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .saved-note {
+      display: none;
+      margin-top: 18px;
+      text-align: center;
+      color: #15803d;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .saved-note.show {
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px 12px;
+      }
+
+      .card {
+        padding: 22px 16px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .intro {
+        font-size: 15px;
+      }
+
+      .birthday-form {
+        max-width: 100%;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Leave a Birthday Message for Mom</h1>
+      <p class="intro">
+        Write a special memory, a kind message, or a birthday wish.
+        Your message will appear on the main birthday page.
+      </p>
+
+      <form class="birthday-form" id="birthdayForm">
+        <div class="form-row">
+          <input type="text" id="commentName" placeholder="Your name" required />
+        </div>
+
+        <div class="form-row">
+          <textarea id="commentMessage" placeholder="Write your birthday message here..." required></textarea>
+        </div>
+
+        <div class="buttons">
+          <button type="submit" class="btn btn-primary">Save Message</button>
+        </div>
+
+        <div class="saved-note" id="savedNote">
+          Message saved successfully. Redirecting...
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const birthdayForm = document.getElementById("birthdayForm");
+    const commentName = document.getElementById("commentName");
+    const commentMessage = document.getElementById("commentMessage");
+    const savedNote = document.getElementById("savedNote");
+
+    birthdayForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = commentName.value.trim();
+      const message = commentMessage.value.trim();
+
+      if (!name || !message) {
+        alert("Please enter your name and message.");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, message })
+        });
+
+        const text = await res.text();
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch (err) {
+          console.error("Response was not JSON:", text);
+        }
+
+        if (!res.ok) {
+          alert(data.error || text || "Could not save message.");
+          return;
+        }
+
+        savedNote.classList.add("show");
+        birthdayForm.reset();
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 700);
+      } catch (error) {
+        console.error(error);
+        alert("Request failed.");
+      }
+    });
+  </script>
+</body>
+</html>
