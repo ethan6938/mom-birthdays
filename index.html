@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Mom</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #fff1f2, #ffffff, #fffbeb);
+      color: #292524;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 80px 0;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(244,114,182,0.18), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(251,191,36,0.18), transparent 30%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.85);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid #ffe4e6;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-size: 64px;
+      line-height: 1.05;
+      margin-top: 24px;
+      color: #1c1917;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-top: 24px;
+      max-width: 560px;
+      color: #44403c;
+    }
+
+    .buttons {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 18px;
+      font-weight: bold;
+      display: inline-block;
+      transition: 0.2s ease;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #f43f5e;
+      color: white;
+      box-shadow: 0 12px 24px rgba(244,63,94,0.25);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: white;
+      color: #292524;
+      border: 1px solid #e7e5e4;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .card {
+      background: white;
+      border-radius: 32px;
+      border: 1px solid #ffe4e6;
+      padding: 32px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .elephant-box {
+      border-radius: 24px;
+      background: linear-gradient(to bottom right, #ffe4e6, #fffbeb, #e0f2fe);
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+    }
+
+    .elephant { font-size: 100px; }
+
+    .elephant-box h2 {
+      font-size: 36px;
+      margin-top: 24px;
+      color: #1c1917;
+    }
+
+    .elephant-box p {
+      margin-top: 16px;
+      font-size: 18px;
+      color: #57534e;
+    }
+
+    .floating-note {
+      position: absolute;
+      bottom: -18px;
+      left: -12px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid #f5f5f4;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      font-size: 14px;
+    }
+
+    .section { padding: 70px 0; }
+
+    .message-box {
+      background: white;
+      border-radius: 32px;
+      padding: 48px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.07);
+      border: 1px solid #f5f5f4;
+      text-align: center;
+    }
+
+    .message-box h2 {
+      font-size: 42px;
+      margin-bottom: 28px;
+    }
+
+    .message-box p {
+      font-size: 20px;
+      max-width: 850px;
+      margin: 0 auto;
+      color: #57534e;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .wish-card {
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid transparent;
+      min-height: 220px;
+    }
+
+    .wish-card h3 {
+      font-size: 28px;
+      margin-top: 14px;
+      margin-bottom: 12px;
+    }
+
+    .wish-card p {
+      color: #57534e;
+      font-size: 17px;
+    }
+
+    .rose { background: #fff1f2; border-color: #ffe4e6; }
+    .amber { background: #fffbeb; border-color: #fef3c7; }
+    .sky { background: #f0f9ff; border-color: #e0f2fe; }
+
+    .icon { font-size: 42px; }
+
+    .comment-card .comment-name {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1c1917;
+      margin-bottom: 10px;
+    }
+
+    .comment-card .comment-text {
+      color: #57534e;
+      font-size: 17px;
+      white-space: pre-wrap;
+      margin-bottom: 14px;
+    }
+
+    .comment-card .comment-date {
+      font-size: 13px;
+      color: #a8a29e;
+      margin-bottom: 16px;
+    }
+
+    .empty-comments {
+      grid-column: 1 / -1;
+      background: white;
+      border: 1px dashed #e7e5e4;
+      border-radius: 24px;
+      padding: 30px;
+      text-align: center;
+      color: #78716c;
+      font-size: 16px;
+    }
+
+    footer { padding: 0 0 50px; }
+
+    .footer-box {
+      background: #1c1917;
+      color: white;
+      border-radius: 32px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+
+    .footer-box p {
+      font-size: 22px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-box .small {
+      font-size: 16px;
+      color: #d6d3d1;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .grid-3 { grid-template-columns: 1fr; }
+      h1 { font-size: 44px; }
+      .elephant-box { min-height: 380px; }
+      .message-box { padding: 32px 24px; }
+      .message-box h2 { font-size: 32px; }
+      .message-box p, .hero p { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">Made with love for Mom</span>
+        <h1>Happy Birthday, Mom</h1>
+        <p>
+          Today is all about celebrating your beautiful heart, your strength, and the love you bring to everyone around you. Since you love elephants, this little page is made especially for you.
+        </p>
+        <div class="buttons">
+          <a href="#message" class="btn btn-primary">Read Your Message</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="elephant-box">
+          <div>
+            <div class="elephant">🐘</div>
+            <h2>A Heart as Gentle as an Elephant</h2>
+            <p>Strong, kind, wise, and full of love — that is exactly who you are.</p>
+          </div>
+        </div>
+        <div class="floating-note">With love on your special day</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="message" class="section">
+    <div class="container">
+      <div class="message-box">
+        <h2>A Special Message for You</h2>
+        <p>
+          Mom, thank you for your endless love, your warmth, and the way you always make life brighter. You are one of the most important people in my life, and I hope this birthday brings you as much joy as you bring to everyone else. May your year ahead be filled with peace, laughter, beautiful moments, and all the love you deserve.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="memories" class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="grid-3" style="margin-bottom: 24px;">
+        <div class="wish-card rose">
+          <div class="icon">💗</div>
+          <h3>Kind Heart</h3>
+          <p>Your love and care make every day better for the people lucky enough to know you.</p>
+        </div>
+
+        <div class="wish-card amber">
+          <div class="icon">✨</div>
+          <h3>Beautiful Soul</h3>
+          <p>You bring warmth, wisdom, and grace into every room, just by being you.</p>
+        </div>
+
+        <div class="wish-card sky">
+          <div class="icon">🎂</div>
+          <h3>Birthday Joy</h3>
+          <p>Wishing you a day filled with happiness, sweet memories, and everything you love most.</p>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-bottom: 30px; margin-top: 10px;">
+        <h2 style="font-size: 42px; color: #1c1917; margin-bottom: 10px;">Birthday Messages</h2>
+        <p style="font-size: 18px; color: #57534e;">Messages left for Mom will appear here.</p>
+      </div>
+
+      <div class="grid-3" id="commentsGrid">
+        <div class="empty-comments">Loading birthday messages...</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-box">
+        <p>Happy Birthday to the most wonderful mom. You are loved more than words can say.</p>
+        <div class="small">Made especially for you, with love ❤️</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const commentsGrid = document.getElementById("commentsGrid");
+    const cardClasses = ["rose", "amber", "sky"];
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text || "";
+      return div.innerHTML;
+    }
+
+    async function loadComments() {
+      try {
+        const res = await fetch("/api/comments");
+        const text = await res.text();
+
+        let comments = [];
+        try {
+          comments = text ? JSON.parse(text) : [];
+        } catch (err) {
+          console.error("Response was not JSON:", text);
+          throw new Error("Invalid response");
+        }
+
+        if (!res.ok) {
+          throw new Error("Could not load comments");
+        }
+
+        if (!comments.length) {
+          commentsGrid.innerHTML = `<div class="empty-comments">No birthday messages yet.</div>`;
+          return;
+        }
+
+        commentsGrid.innerHTML = comments.map((comment, index) => {
+          const colorClass = cardClasses[index % cardClasses.length];
+
+          return `
+            <div class="wish-card comment-card ${colorClass}">
+              <div class="icon">💌</div>
+              <div class="comment-name">${escapeHtml(comment.name)}</div>
+              <div class="comment-text">${escapeHtml(comment.message)}</div>
+              <div class="comment-date">${new Date(comment.createdAt).toLocaleString()}</div>
+            </div>
+          `;
+        }).join("");
+      } catch (error) {
+        console.error(error);
+        commentsGrid.innerHTML = `<div class="empty-comments">Could not load comments.</div>`;
+      }
+    }
+
+    loadComments();
+  </script>
+</body>
+</html>
