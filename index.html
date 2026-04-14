@@ -178,6 +178,18 @@
       gap: 24px;
     }
 
+    .comments-masonry {
+      column-count: 3;
+      column-gap: 24px;
+    }
+
+    .comment-item {
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 24px;
+    }
+
     .wish-card {
       border-radius: 32px;
       padding: 32px;
@@ -259,11 +271,16 @@
 
     @media (max-width: 900px) {
       .hero-grid, .grid-3 { grid-template-columns: 1fr; }
+      .comments-masonry { column-count: 2; }
       h1 { font-size: 44px; }
       .elephant-box { min-height: 380px; }
       .message-box { padding: 32px 24px; }
       .message-box h2 { font-size: 32px; }
       .message-box p, .hero p { font-size: 18px; }
+    }
+
+    @media (max-width: 600px) {
+      .comments-masonry { column-count: 1; }
     }
   </style>
 </head>
@@ -332,7 +349,7 @@
         <p style="font-size: 18px; color: #57534e;"></p>
       </div>
 
-      <div class="grid-3" id="commentsGrid">
+      <div class="comments-masonry" id="commentsGrid">
         <div class="empty-comments">Loading birthday messages...</div>
       </div>
     </div>
@@ -383,11 +400,13 @@
           const colorClass = cardClasses[index % cardClasses.length];
 
           return `
-            <div class="wish-card comment-card ${colorClass}">
-              <div class="icon">💌</div>
-              <div class="comment-name">${escapeHtml(comment.name)}</div>
-              <div class="comment-text">${escapeHtml(comment.message)}</div>
-              <div class="comment-date">${new Date(comment.createdAt).toLocaleString()}</div>
+            <div class="comment-item">
+              <div class="wish-card comment-card ${colorClass}">
+                <div class="icon">💌</div>
+                <div class="comment-name">${escapeHtml(comment.name)}</div>
+                <div class="comment-text">${escapeHtml(comment.message)}</div>
+                <div class="comment-date">${new Date(comment.createdAt).toLocaleString()}</div>
+              </div>
             </div>
           `;
         }).join("");
